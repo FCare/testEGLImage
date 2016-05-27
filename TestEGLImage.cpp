@@ -277,17 +277,17 @@ void SetupEGL(CAVWindow &wind)
 {
 	EGLint major, minor;
 
-	g_sEGLDisplay = eglGetDisplay(wind.GetXDisplayPtr()); assert(g_sEGLDisplay != EGL_NO_DISPLAY);
+	g_sEGLDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY); assert(g_sEGLDisplay != EGL_NO_DISPLAY);
 
 	EGLBoolean success = eglInitialize(g_sEGLDisplay, &major, &minor); assert(success == EGL_TRUE);
 	printf("major=%d, minor = %d\n", major, minor);
 
 	g_configAttributes[15] = EGL_OPENGL_ES2_BIT;
 	g_contextAttributes[1] = 2;
-	g_contextAttributes[2] = EGL_NONE;
 
 	g_config = findConfig(g_sEGLDisplay);
-	g_sEGLSurface = eglCreateWindowSurface(g_sEGLDisplay, g_config, (EGLNativeWindowType)wind.GethWnd(), g_windowAttributes); assert(g_sEGLSurface != EGL_NO_SURFACE);
+	g_sEGLSurface = eglCreateWindowSurface(g_sEGLDisplay, g_config, (EGLNativeWindowType)wind.GethWnd(), g_windowAttributes);
+	assert(g_sEGLSurface != EGL_NO_SURFACE);
 	eglBindAPI(EGL_OPENGL_ES_API);
 	g_sEGLContext = eglCreateContext(g_sEGLDisplay, g_config, EGL_NO_CONTEXT, g_contextAttributes); assert(g_sEGLContext != EGL_NO_CONTEXT);
 	eglMakeCurrent(g_sEGLDisplay, g_sEGLSurface, g_sEGLSurface, g_sEGLContext);
