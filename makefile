@@ -14,11 +14,13 @@ SOURCES =  TestEGLImage.cpp
 
 #elenco lib
 LIBS = \
+       -L/opt/vc/lib \
        -lc \
        -lpthread \
        -lstdc++ \
        -ldl \
-       -L /usr/lib/arm-linux-gnueabihf/mali-egl/ -lmali \
+       -lEGL \
+       -lGLESv2 \
        -lX11
 
 #dir base di output
