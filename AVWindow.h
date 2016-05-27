@@ -36,7 +36,6 @@ public:
 	void CreaFinestra(int windowWidth, int windowHeight, const std::wstring &wName, int posx, int posy)
 	{
 		XSetWindowAttributes windowAttributes;
-		XSizeHints sizeHints;
 		XEvent event;
 		XVisualInfo visualInfoTemplate;
 
@@ -50,24 +49,22 @@ public:
 			throw "Couldn't XOpenDisplay";
 
 
+		int blackColor = BlackPixel(m_display, DefaultScreen(m_display));
+
 		Window root = DefaultRootWindow( m_display );
 
 		windowAttributes.event_mask = StructureNotifyMask | ExposureMask;
 
-		m_window = XCreateWindow(m_display, root, 0, 0, windowWidth, windowHeight,
-			0, CopyFromParent, InputOutput, CopyFromParent, CopyFromParent, &windowAttributes);
-		sizeHints.flags = USPosition;
-		sizeHints.x = 10;
-		sizeHints.y = 10;
+		m_window = XCreateSimpleWindow(m_display, root, 0, 0, windowWidth, windowHeight,
+			0, blackColor, blackColor);
+
+                XSelectInput(m_display, m_window, StructureNotifyMask);
 
 		XMapWindow(m_display, m_window);
+		XStoreName(m_display, m_window, "GL ES2.0 Perf test");
 		XIfEvent(m_display, &event, wait_for_map, (char*)(&m_window));
-		XSetWMColormapWindows(m_display, m_window, &m_window, 1);
+		//XSetWMColormapWindows(m_display, m_window, &m_window, 1);
 		XFlush(m_display);
-
-		XSelectInput(m_display, m_window, KeyPressMask | ExposureMask | EnterWindowMask
-			| LeaveWindowMask | PointerMotionMask | VisibilityChangeMask | ButtonPressMask
-			| ButtonReleaseMask | StructureNotifyMask);
 	}
 
 	void ChiudiFinestra()
