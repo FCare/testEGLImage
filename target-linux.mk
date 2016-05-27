@@ -42,7 +42,8 @@ endif
 endif
 
 ifeq ($(PLATFORM),RASPBERRY)
-INCLUDE += -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads
+INCLUDE += -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
+LIBS += -lbcm_host -L/opt/vc/lib
 endif
 
 PRINTCFGh = "***************************************************" 

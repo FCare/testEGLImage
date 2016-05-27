@@ -14,7 +14,6 @@ SOURCES =  TestEGLImage.cpp
 
 #elenco lib
 LIBS = \
-       -L/opt/vc/lib \
        -lc \
        -lpthread \
        -lstdc++ \
