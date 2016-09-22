@@ -41,6 +41,10 @@ error:
 endif
 endif
 
+ifneq ($(PLATFORM),RASPBERRY)
+INCLUDE += -I/opt/vc/include -I/opt/vc/include/interfaces/vcos/pthreads
+endif
+
 PRINTCFGh = "***************************************************" 
 PRINTCFG  = Using configuration $(CFG) and platform $(PLATFORM)
 PRINTCFGt = "***************************************************"
