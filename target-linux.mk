@@ -42,7 +42,7 @@ endif
 endif
 
 ifneq ($(PLATFORM),RASPBERRY)
-INCLUDE += -I/opt/vc/include -I/opt/vc/include/interfaces/vcos/pthreads
+INCLUDE += -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads
 endif
 
 PRINTCFGh = "***************************************************" 
