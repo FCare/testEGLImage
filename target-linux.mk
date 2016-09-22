@@ -41,7 +41,13 @@ error:
 endif
 endif
 
+ifeq ($(PLATFORM),LINUX)
+CPP_FLAGS += -D__USE_X11__
+LIBS += -lX11
+endif
+
 ifeq ($(PLATFORM),RASPBERRY)
+CPP_FLAGS += -D__USE_DISPMANX__
 INCLUDE += -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 LIBS += -lbcm_host -L/opt/vc/lib
 endif

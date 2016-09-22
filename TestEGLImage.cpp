@@ -8,7 +8,12 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include <unistd.h>
-#include "AVWindow.h"
+#ifdef __USE_X11__
+#include "X11Window.h"
+#endif
+#ifdef __USE_DISPMANX__
+#include "DispmanWindow.h"
+#endif
 #include "stdio.h"
 #include "string.h"
 
