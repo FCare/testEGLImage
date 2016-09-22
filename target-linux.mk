@@ -41,7 +41,7 @@ error:
 endif
 endif
 
-ifneq ($(PLATFORM),RASPBERRY)
+ifeq ($(PLATFORM),RASPBERRY)
 INCLUDE += -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads
 endif
 
