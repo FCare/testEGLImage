@@ -359,6 +359,9 @@ char *Mode2String[3] = {
 
 int main(int argc, char **argv)
 {
+#ifdef __USE_DISPMANX__
+	signal(SIGINT, cleanup);
+#endif
 try
 {
 	int mode = -1;
@@ -367,12 +370,14 @@ try
 		printf("Usage:\n%s <mode>\n", argv[0]);
 		printf("  mode=0 update texture using glTexSubImage2D\n");
 		printf("  mode=1 update texture using EGLIMage and memcpy\n");
+#ifdef __USE_X11__
 		printf("  mode=2 update texture using EGLIMage and XFillRectangle\n");
+#endif
 		exit (1);
 	}
 	mode = atoi(argv[1]);
 	printf("Running mode=%d (%s)\n", mode, Mode2String[mode]);
-
+#ifdef __USE_X11__
 	CAVWindow wind;
 
 	wind.CreaFinestra(WIDTH, HEIGHT, L"testEGLImage", 0, 0);
@@ -391,6 +396,16 @@ try
 	printf("XGetImage %d %d %d %p\n", pXImage->width, pXImage->height, pXImage->depth, pXImage->data);
 
 	EGLImageKHR eglImage = eglCreateImageKHR(g_sEGLDisplay, EGL_NO_CONTEXT, EGL_NATIVE_PIXMAP_KHR, (EGLClientBuffer)XPixMap, img_attribs);
+#endif
+#ifdef __USE_DISPMANX__
+    init_egl(p_state);
+
+    init_dispmanx(p_state);
+    
+    egl_from_dispmanx(p_state);
+
+    EGLImageKHR eglImage = eglCreateImageKHR(g_sEGLDisplay, EGL_NO_CONTEXT, EGL_NATIVE_PIXMAP_KHR, (EGLClientBuffer)XPixMap, img_attribs);
+#endif
 	EGLint eglError = eglGetError();
 	if (eglError != EGL_SUCCESS)
 		printf("eglGetError() = %i (0x%.8x) at line %i\n", eglError, eglError, __LINE__);
@@ -450,7 +465,9 @@ catch (const char *e)
 {
 printf ("Exception: %s\n", e);
 }
-
+#ifdef __USE_DISPMANX__
+	cleanup(0);
+#endif
 	return 0;
 }
 
